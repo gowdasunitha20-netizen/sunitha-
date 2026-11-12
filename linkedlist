@@ -1,0 +1,121 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+	int data; 
+	struct Node* next;
+};  
+struct Node* createNode(int element){
+	struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+	newNode->data=element;
+	newNode->next=NULL;
+	return newNode;
+}
+void display(struct Node* head){
+	while(head!=NULL){
+		printf("%d\n",head->data);
+		head=head->next;
+	}
+}
+struct Node* insertAtBeginning(struct Node* head,int element){
+	struct Node*newNode = createNode(element);
+	if(head==NULL){
+		head=newNode;
+	}
+	else{
+		newNode->next=head;
+		head=newNode;
+	}
+	return head;
+}
+struct Node* insertAtEnding(struct Node* head,int element){
+	struct Node*newNode = createNode(element);
+	if(head==NULL){
+		head=newNode;
+	}
+	else{
+		struct Node* temp_head;
+		while(temp_head->next!=NULL){
+			temp_head=temp_head->next;
+		}
+		temp_head->next=newNode;
+	}
+	return head;
+}
+struct Node* insertAtPosition(struct Node* head, int element, int position){
+	struct Node* newNode = createNode(element);
+	if(position==1){
+		insertAtBeginning(head,element);
+	}
+	else{
+		int count=1;
+		struct Node* temp=head;
+		while(count<position-1){
+			count++;
+			temp=temp->next;
+		}
+		newNode->next=temp->next;
+		temp->next=newNode;
+	}
+}
+struct Node* deleteAtBeginning(struct Node*head,int element){
+	if(head==NULL){
+		printf("Linked list is Empty");\
+	}
+	else
+	{
+		head= head->next;
+	}
+	return head;
+	
+}
+struct Node* deleteatending(struct Node* head)
+{
+	if(head == NULL)
+	{
+		printf("Linked list is Empty \n");
+	}
+	else if(head->next==NULL)
+	{
+		head=NULL;
+	}
+	else
+	{
+		struct Node* temp = head;
+		while(temp->next->next!=NULL)
+		{
+			temp=temp->next;
+		 } 
+		 temp->next=NULL;
+	}
+	return head;
+}
+int searchElement(struct Node*head,int target)
+{
+    struct Node* temp=head;
+    int cnt=1;
+    while(temp!=NULL)
+    {
+        if(temp->data==target)
+        {
+            return cnt;
+        }
+        cnt++;
+        temp=temp->next;
+    }
+    return-1;
+}
+int main()
+{
+	struct Node* head = NULL;
+	head = insertAtBeginning(head,56);
+	head = insertAtBeginning(head,96);
+	head = insertAtEnding(head,44);
+	head = insertAtEnding(head,78);
+	head = insertAtPosition(head,67,3);
+	printf("%d\n",searchElement(head,3));
+	display(head);
+	printf("%d\n",searchElement(head,46));
+	return 0;
+}
